@@ -131,7 +131,7 @@ class HBNBCommand(cmd.Cmd):
         if args:
             for arg in args:
                 key, value = arg.split("=")
-                if value.startswith('""') and value.endswith('""'):
+                if value.startswith('"') and value.endswith('"'):
                     value = value[1: -1]
                     value = value.replace("_", " ").replace('"', '\\"')
 
