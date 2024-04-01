@@ -117,7 +117,7 @@ class HBNBCommand(cmd.Cmd):
         """ Create an object of any class"""
         args = args.split(" ")
 
-        class_name = args.pop()
+        class_name = args.pop(0)
 
         kwargs = {}
 
