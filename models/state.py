@@ -6,11 +6,12 @@ from sqlalchemy.orm import relationship
 import os
 from models.city import City
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
-    name = Column(String(128), nullable = False)
-    if os.environ.get('HBNB_TYPE_STORAGE') == 'db':
+    name = Column(String(128), nullable=False)
+    if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         cities = relationship("City")
     else:
         @property
