@@ -42,7 +42,7 @@ class DBStorage:
                     key = f"{c_name.__name__}.{instance.id}"
                     result[key] = instance
         return result
-    
+
     def new(self, obj):
         self.__session.add(obj)
 

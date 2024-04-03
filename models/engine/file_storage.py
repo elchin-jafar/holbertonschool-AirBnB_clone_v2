@@ -18,7 +18,6 @@ class FileStorage:
             return new_dict
         return self.__objects
 
-
     def new(self, obj):
         """Adds new object to storage dictionary"""
         name = obj.__class__.__name__
@@ -60,6 +59,6 @@ class FileStorage:
             with open(FileStorage.__file_path, 'r') as f:
                 temp = json.load(f)
                 for key, val in temp.items():
-                        self.all()[key] = classes[val['__class__']](**val)
+                    self.all()[key] = classes[val['__class__']](**val)
         except FileNotFoundError:
             pass
