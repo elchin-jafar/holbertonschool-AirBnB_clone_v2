@@ -17,10 +17,10 @@ class DBStorage:
     classes = ['User', 'Place', 'State', 'City', 'Amenity', 'Review']
 
     def __init__(self):
-        self.user = os.getenv('HBNB_MYSQL_USER')
-        self.pwd = os.getenv('HBNB_MYSQL_PWD')
-        self.host = os.getenv('HBNB_MYSQL_HOST')
-        self.db = os.getenv('HBNB_MYSQL_DB')
+        self.user = os.getenv('HBNB_MYSQL_USER', 'hbnb_test')
+        self.pwd = os.getenv('HBNB_MYSQL_PWD', 'hbnb_test_pwd')
+        self.host = os.getenv('HBNB_MYSQL_HOST', 'localhost')
+        self.db = os.getenv('HBNB_MYSQL_DB', 'hbnb_test_db')
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}"
                                       .format(self.user, self.pwd,
                                               self.host, self.db),
