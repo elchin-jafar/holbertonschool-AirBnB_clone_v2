@@ -23,7 +23,7 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     amenity_ids = []
 
-    place_id = Column('place_id', String(60), ForeignKey('places_id'),
+    place_id = Column('place_id', String(60), ForeignKey('places.id'),
                       primary_key=True, nullable=False)
     amenity_id = Column('amenity_id', String(60), ForeignKey('amenities.id'),
                         primary_key=True, nullable=False)
