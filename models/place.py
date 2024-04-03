@@ -4,7 +4,7 @@ from models.base_model import BaseModel, Base
 from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 import os
-from models import storage
+import models
 from models.review import Review
 from models.amenity import Amenity
 
@@ -43,7 +43,7 @@ class Place(BaseModel, Base):
     else:
         @property
         def reviews(self):
-            reviewslist = storage.all(Review)
+            reviewslist = models.storage.all(Review)
             new_list = []
             for obj in reviewslist.values():
                 if obj.place_id == self.id:
