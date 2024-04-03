@@ -8,6 +8,7 @@ import os
 from models.review import Review
 from models.amenity import Amenity
 
+
 class Place(BaseModel, Base):
     """ A place to stay """
     __tablename__ = 'places'
@@ -23,14 +24,22 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     amenity_ids = []
 
-    place_id = Column('place_id', String(60), ForeignKey('places.id'),
-                      primary_key=True, nullable=False)
-    amenity_id = Column('amenity_id', String(60), ForeignKey('amenities.id'),
-                        primary_key=True, nullable=False)
-    place_amenity = Table('place_amenity', Base.metadata, place_id, amenity_id)
+    place_amenity = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60),
+                                 ForeignKey('places.id'),
+                                 primary_key=True,
+                                 nullable=False),
+                          Column('amenity_id', String(60),
+                                 ForeignKey('amenities.id'),
+                                 primary_key=True,
+                                 nullable=False)
+                          )
+    
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
-        reviews = relationship('Review', cascade='all, delete', backref='place')
-        amenity = relationship('Amenity', secondary='place_amenity', viewonly=False)
+        reviews = relationship('Review', cascade='all, delete',
+                               backref='place')
+        amenity = relationship('Amenity', secondary='place_amenity',
+                               viewonly=False)
     else:
         @property
         def reviews(self):
@@ -44,7 +53,7 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             return self.amenity_ids
-        
+
         @amenities.setter
         def amenities(self, obj=None):
             if type(obj) is Amenity and obj.id not in self.amenity_ids:
