@@ -12,8 +12,8 @@ class Place(BaseModel, Base):
     description = Column(String(1024))
     number_rooms = Column(Integer, nullable=False, default=0)
     number_bathrooms = Column(Integer, nullable=False, default=0)
-    max_guest = Column(Integer, nullabe=False, default=0)
-    price_by_night = Column(Integer, nullabe=False, default=0)
+    max_guest = Column(Integer, nullable=False, default=0)
+    price_by_night = Column(Integer, nullable=False, default=0)
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
