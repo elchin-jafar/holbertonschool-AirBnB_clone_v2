@@ -14,13 +14,7 @@ from models.review import Review
 class DBStorage:
     __engine = None
     __session = None
-    classes = {'User': User,
-               'Place': Place,
-               'State': State,
-               'City': City,
-               'Amenity': Amenity,
-               'Review': Review
-               }
+    classes = ['User', 'Place', 'State', 'City', 'Amenity', 'Review']
 
     def __init__(self):
         self.user = os.getenv('HBNB_MYSQL_USER')
@@ -38,15 +32,14 @@ class DBStorage:
         result = {}
 
         if cls:
-            class_obj = self.classes.get(cls)
-            if class_obj:
-                for instance in self.__session.query(class_obj).all():
-                    key = f"{cls}.{instance.id}"
-                    result[key] = instance
+            for instance in self.__session.query(cls).all():
+                key = f"{cls.__name__}.{instance.id}"
+                result[key] = instance
         else:
-            for class_name, class_obj in self.classes.items():
-                for instance in self.__session.query(class_obj).all():
-                    key = f"{class_name}.{instance.id}"
+            for name in self.classes:
+                c_name = eval(name)
+                for instance in self.__session.query(c_name).all():
+                    key = f"{c_name.__name__}.{instance.id}"
                     result[key] = instance
         return result
     
