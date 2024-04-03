@@ -2,10 +2,11 @@
 """ Place Module for HBNB project """
 import models
 from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, Integer, Float, ForeignKey
+from sqlalchemy import Column, String, Integer, Float, ForeignKey, Table
 from sqlalchemy.orm import relationship
 import os
 from models.review import Review
+from models.amenity import Amenity
 
 class Place(BaseModel, Base):
     """ A place to stay """
@@ -21,14 +22,30 @@ class Place(BaseModel, Base):
     latitude = Column(Float)
     longitude = Column(Float)
     amenity_ids = []
+
+    place_id = Column('place_id', String(60), ForeignKey('places_id'),
+                      primary_key=True, nullable=False)
+    amenity_id = Column('amenity_id', String(60), ForeignKey('amenities.id'),
+                        primary_key=True, nullable=False)
+    place_amenity = Table('place_amenity', Base.metadata, place_id, amenity_id)
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         reviews = relationship('Review', cascade='all, delete', backref='place')
+        amenity = relationship('Amenity', secondary='place_amenity', viewonly=False)
     else:
-         @property
-         def reviews(self):
+        @property
+        def reviews(self):
             reviewslist = models.storage.all(Review)
             new_list = []
             for obj in reviewslist.values():
                 if obj.place_id == self.id:
                     new_list.append(obj)
             return (new_list)
+
+        @property
+        def amenities(self):
+            return self.amenity_ids
+        
+        @amenities.setter
+        def amenities(self, obj=None):
+            if type(obj) is Amenity and obj.id not in self.amenity_ids:
+                self.amenity_ids.append(obj.id)
