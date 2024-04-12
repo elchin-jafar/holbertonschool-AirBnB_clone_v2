@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""check if given variable is integer or not"""
-from flask import Flask
+"""render html tomplate"""
+from flask import Flask, render_template
 app = Flask(__name__)
 
 
@@ -27,9 +27,15 @@ def python_is_trash(text="is cool"):
     return f"Python {text}"
 
 
-@app.route("/number/<int:n>", strict_slashes=False)
+@app.route("/number/<n>", strict_slashes=False)
 def return_if_integer(n):
-    return f"{n} is a number"
+    if n.isdigit():
+        return f"{n} is a number"
+
+
+@app.route("/number_template/<int:n>", strict_slashes=False)
+def render_html(n):
+    return render_template("5-number.html", n=n)
 
 
 if __name__ == "__main__":
