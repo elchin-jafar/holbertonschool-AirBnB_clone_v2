@@ -1,14 +1,6 @@
 #!/usr/bin/python3
-import sys
-import os
 from flask import Flask
 from flask import render_template
-
-module_dir = os.path.abspath("/root/holbertonschool-AirBnB_clone_v2/")
-
-if module_dir not in sys.path:
-    sys.path.append(module_dir)
-
 from models import storage
 
 app = Flask(__name__)
